@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.18'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.springsecurityexample'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.7.18'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:2.7.18'
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.7.18'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.7.18'
+    implementation('org.springframework.boot:spring-boot-starter-web:2.7.18') {
+        exclude group: 'org.hibernate.validator', module: 'hibernate-validator'
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.2'
+    implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.18'
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+    implementation 'mysql:mysql-connector-java:8.0.30'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.2'
+    testImplementation 'org.springframework.security:spring-security-test:5.8.9'
+    testCompileOnly 'org.projectlombok:lombok:1.18.32'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    //Junit
+    // Spring Boot Test Starter (JUnit 5 포함)
+    testImplementation ('org.springframework.boot:spring-boot-starter-test:2.7.18') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    // JUnit Jupiter API
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.8.2"
+    // JUnit Jupiter Engine
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.8.2"
+    // JUnit Platform Launcher
+    testImplementation "org.junit.platform:junit-platform-launcher:1.8.2"
+}
+
+tasks.named('bootBuildImage') {
+    builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
+
+test {
+    useJUnitPlatform()
+}
